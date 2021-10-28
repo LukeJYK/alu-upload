@@ -1,0 +1,1 @@
+souce /vol/cadence2018/XCELIUM1809/tools/xcelium/files/xmsimrc
