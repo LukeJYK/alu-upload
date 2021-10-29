@@ -5,8 +5,8 @@ entity adder_32bit is
   port (
     a   : in  std_logic_vector(31 downto 0);
     b   : in  std_logic_vector(31 downto 0);
-    cin : in  std_logic;
-    cout: out std_logic;
+    carryin : in  std_logic;
+    carryout: out std_logic;
     sum : out std_logic_vector(31 downto 0)
   );
 end adder_32bit;
@@ -15,11 +15,11 @@ architecture structural of adder_32bit is
 
 begin 
   add1: entity adder_8bit
-    port map(a(7 downto 0),b(7 downto 0),cin,sum(7 downto 0),cout0);
+    port map(a(7 downto 0),b(7 downto 0),carryin,sum(7 downto 0),cout0);
   add2: entity adder_8bit
     port map(a(15 downto 8),b(15 downto 8),cout0,sum(15 downto 8),cout1);
   add3: entity adder_8bit
     port map(a(23 downto 16),b(23 downto 16),cout1,sum(23 downto 16), cout2);
   add4: entity adder_8bit
-    port map(a(31 downto 24),b(31 downto 24),cout2,sum(31 downto 24),cout);
+    port map(a(31 downto 24),b(31 downto 24),cout2,sum(31 downto 24),carryout);
 end structural;
