@@ -1,56 +1,57 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.adder_32bit;
+use work.sub_32;
 
 
-entity adder_32bit_t is
+entity sub_32_t is
   
-end adder_32bit_t;
+end sub_32_t;
 
-architecture behavior of adder_32bit_t is
-signal a,b,sum : std_logic_vector(31 downto 0);
-signal cout, cin : std_logic;
+architecture behavior of sub_32_t is
+signal a,b,result : std_logic_vector(31 downto 0);
+signal cout, overflow : std_logic;
 
-component adder_32bit is
+component sub_32 is
   port(
-    a : in std_logic_vector(31 downto 0);
-    b : in std_logic_vector(31 downto 0);
-    cin : in std_logic;
-    sum : out std_logic_vector(31 downto 0);
-  cout : out std_logic);
-end component adder_32bit;
+    a,b   : in  std_logic_vector(31 downto 0);
+    result   : out std_logic_vector(31 downto 0);
+    overflow : out std_logic;
+    cout: out std_logic);
+end component sub_32;
 
 begin
-  test_comp : adder_32bit
+  test_comp : sub_32
   port map(
   a=>a,
   b=>b,
-  cin=>cin,
   cout=>cout,
-  sum=>sum
+  result=>result,
+  overflow=>overflow
   );
   testbench : process
   begin
     a<="00000000000000000000000000000000";
     b<="00000000000000000000000000000000";
-    cin<='0';
     wait for 50 ns;
     a<="00000000000000000000000000000001";
     b<="00000000000000000000000000000000";
-    wait for 50ns;
     wait for 50 ns;
     a<="00000000000000000000000000000001";
     b<="00000000000000000000000000000001";
     wait for 50 ns;
     a<="00000000000000000000000000000001";
     b<="00000000000000000000000000000010";
-    wait for 50 ns;
+	 wait for 50 ns;
     a<="00000000000000000000000000000001";
     b<="01111111111111111111111111111111";
     wait for 50 ns;
     a<="00000000000000000000000000000001";
     b<="11111111111111111111111111111111";
+	 wait for 50 ns;
+	 --test overflow
+	 a<="10000000000000000000000000000100";
+    b<="00000000000000000000000000000101";
+	 wait for 50 ns;
     wait;
   end process;
 end architecture behavior;
-
